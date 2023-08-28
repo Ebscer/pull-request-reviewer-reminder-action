@@ -71,9 +71,9 @@ async function run(): Promise<void> {
           .createdAt
 
       const currentTime = new Date().getTime()
-      const reviewByTime =
-        new Date(pullRequestCreatedAt).getTime() +
-        1000 * 60 * 60 * reviewTurnaroundHours
+      const pullRequestDate = new Date(pullRequestCreatedAt)
+      const pullRequestDay = pullRequestDate.getDay()
+      const reviewByTime = (pullRequestDay >= 4) ? pullRequestDate.getTime() + 1000 * 60 * 60 * (reviewTurnaroundHours + 48) : pullRequestDate.getTime() + 1000 * 60 * 60 * reviewTurnaroundHours
 
       core.info(`currentTime: ${currentTime} reviewByTime: ${reviewByTime}`)
       if (currentTime < reviewByTime) {
